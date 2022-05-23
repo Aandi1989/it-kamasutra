@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import { Formik, useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { loginTC } from './login-reducer';
+// import { LoginParamsType } from '../../api/todolists-api';
 
 type FormikErrorType={
     email?:string
@@ -45,8 +46,9 @@ export const Login = () => {
             return errors;
         },
      
-        onSubmit: values => {
-            dispatch(loginTC(values))
+        onSubmit: (values) => {
+            console.log(values)
+            dispatch(loginTC(values.email, values.password, values.rememberMe))
             // alert(JSON.stringify(values));
             // formik.resetForm()
         },

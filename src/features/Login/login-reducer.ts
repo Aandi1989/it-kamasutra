@@ -2,7 +2,7 @@ import { Dispatch } from "react"
 import { SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType } from "../../app/app-reducer"
 import { TasksStateType } from "../TodolistsList/tasks-reducer"
 import { SetTodolistsActionType } from "../TodolistsList/todolists-reducer"
-import {LoginParamsType} from "../../api/todolists-api"
+// import {LoginParamsType} from "../../api/todolists-api"
 import {authAPI} from "../../api/todolists-api"
 import { handleServerAppError, handleServerNetworkError } from "../../utils/error-utils"
 
@@ -20,10 +20,11 @@ export const removeTaskAC = (taskId: string, todolistId: string) => ({type: 'REM
 
 
 // thunks
-export const loginTC = (data:LoginParamsType) => (dispatch: Dispatch<ActionsType | SetAppStatusActionType >) => {
+export const loginTC = (email:string,password:string,rememberMe:boolean) => (dispatch:any) => {
     dispatch(setAppStatusAC('loading'))
-    authAPI.login(data)
+    authAPI.login(email,password,rememberMe)
     .then(res => {
+        console.log(res)
         if (res.data.resultCode === 0) {
             alert("yo")
         } else {
