@@ -1,42 +1,34 @@
-import * as React from 'react';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+import React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppRootStateType } from '../../app/store';
-import {InitialType, setAppErrorAC} from '../../app/app-reducer'
+import { setAppErrorAC } from '../../app/app-reducer';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  props,
-  ref,
-) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export  function CustomizedSnackbars() {
-  // const [open, setOpen] = React.useState(true);
 
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    // if (reason === 'clickaway') {
-    //   return;
-    // }
+export function ErrorSnackbar() {
 
-    // setOpen(false);
-    dispatch(setAppErrorAC(null))
-  };
+    const error = useSelector<AppRootStateType, string | null>(state => state.app.error)
 
-  const error=useSelector<AppRootStateType, string|null>(state=>state.app.error)
-  const dispatch=useDispatch()
-  const isOpen = error!==null
+    const dispatch = useDispatch();
 
-  return (
-    <Stack spacing={2} sx={{ width: '100%' }} >
-      <Snackbar open={isOpen} autoHideDuration={6000} style={{ width:'90%'}} onClose={handleClose} >
-        <Alert onClose={handleClose} style={{maxWidth: '80%', margin:'0 auto'}} severity="error" sx={{  }}>
-         {error}
-        </Alert>
-      </Snackbar>
-     </Stack> 
-  );
+    const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        dispatch(setAppErrorAC(null))
+    };
+
+    return (
+        <Snackbar open={error !== null} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="error" sx={{width: '100%'}}>
+                {error}
+            </Alert>
+        </Snackbar>
+    );
 }
