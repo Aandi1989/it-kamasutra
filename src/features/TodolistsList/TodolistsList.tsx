@@ -80,17 +80,16 @@ export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
         dispatch(thunk)
     }, [dispatch])
 
+    if(!auth.isLoggedIn){
+        return <Navigate to={'/login'}/>
+    }
+
     if (!auth.isInitialized) {
-        return <div style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+        return <div style={{position: 'fixed', top: '30%', left:'50%', width: '100%'}}>
             <CircularProgress/>
         </div>
      }
      
-     
-
-    if(!auth.isLoggedIn){
-        return <Navigate to={'/login'}/>
-    }
 
 
     return <>
